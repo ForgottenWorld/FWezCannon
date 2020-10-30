@@ -139,7 +139,6 @@ public class Cannon {
             }
         }.runTaskLater(FWezcannon.plugin,40L);
 
-
     }
 
     public Vector generateBallisticVector() {

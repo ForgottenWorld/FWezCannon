@@ -40,5 +40,4 @@ public class CannonManager {
         return cannonBall.contains(id);
     }
 
-
 }

@@ -1,0 +1,5 @@
+name: FWezCannon
+version: ${project.version}
+main: me.architett.fwezcannon.FWezcannon
+api-version: 1.16
+authors: [ Architetto ]

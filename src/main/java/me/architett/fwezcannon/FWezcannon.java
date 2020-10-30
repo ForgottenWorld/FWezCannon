@@ -11,7 +11,6 @@ public final class FWezcannon extends JavaPlugin {
     @Override
     public void onEnable(){
         // Plugin startup logic
-
         plugin = this;
 
         this.getServer().getPluginManager().registerEvents(new CannonListener(),this);

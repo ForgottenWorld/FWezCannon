@@ -28,7 +28,6 @@ public class CannonBarrel {
         return tntAmount;
     }
 
-
     public void clearBarrel() { dispenser.getInventory().clear(); }
 
 }

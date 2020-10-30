@@ -64,6 +64,4 @@ public class BlastChamber {
             blastFurnace.getInventory().setResult(new ItemStack(Material.CHARCOAL,value));
     }
 
-
-
 }
