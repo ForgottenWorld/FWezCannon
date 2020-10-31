@@ -8,6 +8,16 @@ import java.util.List;
 
 public class ShootType {
 
+    /*
+
+    private final List<Material> stickyShoot = Arrays.asList(
+            Material.HONEYCOMB,Material.HONEYCOMB,Material.HONEYCOMB,
+            Material.HONEYCOMB,Material.TNT,Material.HONEYCOMB,
+            Material.HONEYCOMB,Material.HONEYCOMB,Material.HONEYCOMB);
+
+     */
+
+
     private final List<Material> stickyShoot = new ArrayList<Material>(){
         {
             add(Material.HONEYCOMB);
