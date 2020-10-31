@@ -165,7 +165,7 @@ public class Cannon {
         Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
         tnt.setVelocity(generateBallisticVector());
 
-        CannonManager.getInstance().addCannonBall(tnt.getEntityId());
+        CannonManager.getInstance().addCannonBall(tnt.getEntityId(),new ShootType(cannonBarrel.getRecipe()).getShootType());
 
         air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
         blastFurnace.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,blastFurnace.getLocation().add(0,1,0),1);
@@ -177,6 +177,9 @@ public class Cannon {
     }
 
     private void selfdestroy() {
+
+        blastChamber.clearPropellant();
+        cannonBarrel.clearBarrel();
 
         block1.setType(Material.AIR);
         block2.setType(Material.AIR);
