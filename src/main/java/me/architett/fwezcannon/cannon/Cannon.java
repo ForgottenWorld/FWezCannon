@@ -14,6 +14,7 @@ import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -30,6 +31,8 @@ public class Cannon {
     private Block block4;
     private Block dispenser;
     private Block air;
+
+    //private Block antiHopper; allow hopper under blastfurnace ?
 
     private BlastChamber blastChamber;
     private CannonBarrel cannonBarrel;
@@ -144,18 +147,18 @@ public class Cannon {
     public Vector generateBallisticVector() {
 
         int x = blastChamber.getPropellant();
-        float y = blastChamber.getWeight() / 5F;
+        double y = 0.15 * ( blastChamber.getWeight() / 5.0 );
 
 
         switch(bfDirection.getFacing()) {
             case NORTH:
-                return dispenser.getLocation().add(0,0,1).toVector().subtract(dispenser.getLocation().add(0,-1 * (0.15 * y),-0.3 * (x / 10F)).toVector());
+                return dispenser.getLocation().add(0,0,1).toVector().subtract(dispenser.getLocation().add(0,-1 * y,-0.3 * (x / 10F)).toVector());
             case SOUTH:
-                return dispenser.getLocation().add(0,0,-1).toVector().subtract(dispenser.getLocation().add(0,-1 * (0.15 * y),0.3 * (x / 10F)).toVector());
+                return dispenser.getLocation().add(0,0,-1).toVector().subtract(dispenser.getLocation().add(0,-1 * y,0.3 * (x / 10F)).toVector());
             case EAST:
-                return dispenser.getLocation().add(-1,0,0).toVector().subtract(dispenser.getLocation().add(0.3 * (x / 10F),-1 * (0.15 * y),0).toVector());
+                return dispenser.getLocation().add(-1,0,0).toVector().subtract(dispenser.getLocation().add(0.3 * (x / 10F),-1 * y,0).toVector());
             case WEST:
-                return dispenser.getLocation().add(1,0,0).toVector().subtract(dispenser.getLocation().add(-0.3 * (x / 10F),-1 * (0.15 * y),0).toVector());
+                return dispenser.getLocation().add(1,0,0).toVector().subtract(dispenser.getLocation().add(-0.3 * (x / 10F),-1 * y,0).toVector());
         }
         return null;
     }
@@ -164,8 +167,16 @@ public class Cannon {
 
         Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
         tnt.setVelocity(generateBallisticVector());
+        ((TNTPrimed)tnt).setFuseTicks(120);
 
-        CannonManager.getInstance().addCannonBall(tnt.getEntityId(),new ShootType(cannonBarrel.getRecipe()).getShootType());
+
+        //TEST CODE
+        if (cannonBarrel.getRecipe().equals(ShootRecipe.nogravityShoot))
+            tnt.setGravity(false);
+
+        //TEST CODE
+
+        CannonManager.getInstance().addCannonBall(tnt.getEntityId(),new ExplosionEffect(cannonBarrel.getRecipe()).getShootType());
 
         air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
         blastFurnace.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,blastFurnace.getLocation().add(0,1,0),1);
@@ -186,7 +197,7 @@ public class Cannon {
         block3.setType(Material.AIR);
         block4.setType(Material.AIR);
         dispenser.setType(Material.AIR);
-        blastFurnace.getWorld().createExplosion(blastFurnace.getLocation(),10F,false,true);
+        blastFurnace.getWorld().createExplosion(blastFurnace.getLocation(),8F,false,true);
 
     }
 

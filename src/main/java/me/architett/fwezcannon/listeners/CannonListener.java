@@ -52,13 +52,12 @@ public class CannonListener implements Listener{
         if (!(event.getEntity() instanceof TNTPrimed))
             return;
 
-
         if (CannonManager.getInstance().isCannonBall(event.getEntity().getEntityId())) {
             PotionEffectType potionEffectType = CannonManager.getInstance().getExplosionType(event.getEntity().getEntityId());
 
             if (potionEffectType != null){
 
-                for(Entity entity : event.getEntity().getNearbyEntities(15, 5, 15)){
+                for(Entity entity : event.getEntity().getNearbyEntities(5, 3, 5)){
                     if (entity instanceof Player){
                         Player player = (Player) entity;
                         player.addPotionEffect(new PotionEffect(potionEffectType,200,1));
