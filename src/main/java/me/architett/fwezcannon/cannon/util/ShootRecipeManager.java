@@ -32,7 +32,7 @@ public class ShootRecipeManager {
         return shootRecipeManager;
     }
 
-    private void buildContainer() {
+    public void buildContainer() {
 
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
 
