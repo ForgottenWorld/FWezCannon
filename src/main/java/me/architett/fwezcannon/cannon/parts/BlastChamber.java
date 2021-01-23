@@ -7,49 +7,31 @@ import org.bukkit.inventory.ItemStack;
 
 public class BlastChamber {
 
-    private BlastFurnace blastFurnace;
-
-    private ItemStack propellant;
-    private ItemStack wasteMaterial;
-    private ItemStack weightMaterial;
+    private final BlastFurnace blastFurnace;
 
     public BlastChamber(BlastFurnace blastFurnace) {
         this.blastFurnace  = blastFurnace;
-        this.propellant = blastFurnace.getInventory().getSmelting();
-        this.wasteMaterial = blastFurnace.getInventory().getResult();
-        this.weightMaterial = blastFurnace.getInventory().getFuel();
     }
 
-    public Integer getPropellant() {
+    public Integer getGunpowderAmount() {
 
-        if (propellant == null)
+        ItemStack itemStack = blastFurnace.getInventory().getSmelting();
+
+        if (itemStack == null || itemStack.getType() != Material.GUNPOWDER)
             return 0;
-        else if (propellant.getType() != Material.GUNPOWDER)
-            return -1;
         else
-            return propellant.getAmount();
-
-    }
-
-    public Integer getWaste() {
-
-        if (wasteMaterial == null)
-            return 0;
-        else if (wasteMaterial.getType() != Material.CHARCOAL)
-            return -1;
-        else
-            return wasteMaterial.getAmount();
+            return itemStack.getAmount();
 
     }
 
     public Integer getWeight() {
 
-        if (weightMaterial == null)
+        ItemStack itemStack = blastFurnace.getInventory().getFuel();
+
+        if (itemStack == null || !Tag.LOGS.getValues().contains(itemStack.getType()))
             return 0;
-        else if (!Tag.LOGS.getValues().contains(weightMaterial.getType()))
-            return -1;
         else
-            return weightMaterial.getAmount();
+            return itemStack.getAmount();
 
     }
 
@@ -57,11 +39,5 @@ public class BlastChamber {
         blastFurnace.getInventory().setSmelting(null);
     }
 
-    public void addWaste(int value) {
-        if (wasteMaterial != null && wasteMaterial.getType() == Material.CHARCOAL)
-            blastFurnace.getInventory().setResult(wasteMaterial.add(value));
-        else
-            blastFurnace.getInventory().setResult(new ItemStack(Material.CHARCOAL,value));
-    }
 
 }

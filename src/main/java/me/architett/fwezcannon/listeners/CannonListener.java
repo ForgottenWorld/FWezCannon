@@ -1,11 +1,12 @@
 package me.architett.fwezcannon.listeners;
 
+import me.architett.fwezcannon.FWezCannon;
 import me.architett.fwezcannon.cannon.Cannon;
-import me.architett.fwezcannon.manager.CannonManager;
+import me.architett.fwezcannon.cannon.ball.CannonBallManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,22 +14,29 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
-public class CannonListener implements Listener{
+public class CannonListener implements Listener {
 
+    private List<UUID> cooldown = new ArrayList<>();
 
     @EventHandler
     public void onPlayerRightClick(PlayerInteractEvent event) {
 
         Block block = event.getClickedBlock();
+
+        if (block == null ||
+                !FWezCannon.getDefaultConfig().getStringList("enabled_world")
+                        .contains(event.getClickedBlock().getLocation().getWorld().getName()))
+            return;
+
         Action action = event.getAction();
         ItemStack itemStack = event.getItem();
-
-        if (block == null)
-            return;
 
         if (block.getType() == Material.BLAST_FURNACE
                 && action.equals(Action.RIGHT_CLICK_BLOCK)
@@ -39,9 +47,16 @@ public class CannonListener implements Listener{
 
             if (cannon.isCanon()) {
 
-                event.setCancelled(true);
-                cannon.fire();
+                if (cooldown.contains(event.getPlayer().getUniqueId())) {
+                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.ENTITY_ARMOR_STAND_PLACE,1,1);
+                    event.getPlayer().sendActionBar(ChatColor.YELLOW + "" + ChatColor.BOLD
+                            + FWezCannon.getDefaultConfig().getString("cooldown_message"));
+                    return;
+                }
 
+                event.setCancelled(true);
+                cannon.setFire();
+                cooldownTask(event.getPlayer().getUniqueId());
             }
         }
     }
@@ -52,23 +67,22 @@ public class CannonListener implements Listener{
         if (!(event.getEntity() instanceof TNTPrimed))
             return;
 
-        if (CannonManager.getInstance().isCannonBall(event.getEntity().getEntityId())) {
-            PotionEffectType potionEffectType = CannonManager.getInstance().getExplosionType(event.getEntity().getEntityId());
-
-            if (potionEffectType != null){
-
-                for(Entity entity : event.getEntity().getNearbyEntities(5, 3, 5)){
-                    if (entity instanceof Player){
-                        Player player = (Player) entity;
-                        player.addPotionEffect(new PotionEffect(potionEffectType,200,1));
-                    }
-                }
-
-            }
-
-            CannonManager.getInstance().removeCannonBall(event.getEntity().getEntityId());
+        if (CannonBallManager.getInstance().isBall(event.getEntity().getEntityId())) {
+            event.setCancelled(true);
+            CannonBallManager.getInstance().executeExplosion(event.getEntity());
         }
 
+    }
+
+    public void cooldownTask(UUID uuid) {
+        cooldown.add(uuid);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cooldown.remove(uuid);
+            }
+        }.runTaskLaterAsynchronously(FWezCannon.getPlugin(FWezCannon.class),
+                FWezCannon.getDefaultConfig().getLong("player_use_cannon_cooldown") * 20);
     }
 
 }

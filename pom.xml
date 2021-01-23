@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.architett</groupId>
-    <artifactId>fwezcannon</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>FWezCannon</artifactId>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>FWezCannon</name>

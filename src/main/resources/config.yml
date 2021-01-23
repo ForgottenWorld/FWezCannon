@@ -1,0 +1,60 @@
+####################################################################################################
+# +----------------------------------------------------------------------------------------------+ #
+# |                                         FWezCannon                                           | #
+# |                                                                                              | #
+# |                                     Made by: Architetto                                      | #
+# |                                                                                              | #
+# |                   SOURCE CODE: https://github.com/ForgottenWorld/FWezCannon                  | #
+# |                                                                                              | #
+# +----------------------------------------------------------------------------------------------+ #
+####################################################################################################
+
+enabled_world:
+  - 'world'
+
+max_gunpowder_amount: 10
+
+player_use_cannon_cooldown: 5
+cooldown_message: 'CANNONE IN RICARICA'
+
+selfdestroy_explosion_power: 6
+
+gunpowder_power: 0.5
+weight_effect: 0.15
+
+normal_shoot:
+  power: 4
+
+blind_shoot:
+  enable: true
+  range: 5
+  duration: 200
+  amplifier: 1
+
+poison_shoot:
+  enable: true
+  range: 5
+  duration: 300
+  amplifier: 1
+
+fire_shoot:
+  enable: true
+  range: 5
+  duration: 200
+
+slow_shoot:
+  enable: true
+  range: 5
+  duration: 200
+  amplifier: 2
+
+nogravity_shoot:
+  enable: true
+
+huge_shoot:
+  enable: true
+  power: 5
+
+enable_defuser: true #need server restart
+defuser_use_damage: 50
+
