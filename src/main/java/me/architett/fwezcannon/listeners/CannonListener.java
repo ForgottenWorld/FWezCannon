@@ -4,6 +4,7 @@ import me.architett.fwezcannon.FWezCannon;
 import me.architett.fwezcannon.cannon.Cannon;
 import me.architett.fwezcannon.cannon.ball.CannonBallManager;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -47,16 +48,18 @@ public class CannonListener implements Listener {
 
             if (cannon.isCanon()) {
 
+                event.setCancelled(true);
+
                 if (cooldown.contains(event.getPlayer().getUniqueId())) {
-                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.ENTITY_ARMOR_STAND_PLACE,1,1);
+                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_ANVIL_USE,1,1);
                     event.getPlayer().sendActionBar(ChatColor.YELLOW + "" + ChatColor.BOLD
                             + FWezCannon.getDefaultConfig().getString("cooldown_message"));
                     return;
                 }
 
-                event.setCancelled(true);
                 cannon.setFire();
-                cooldownTask(event.getPlayer().getUniqueId());
+                if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+                    cooldownTask(event.getPlayer().getUniqueId());
             }
         }
     }

@@ -3,3 +3,11 @@ version: ${project.version}
 main: me.architett.fwezcannon.FWezCannon
 api-version: 1.16
 authors: [ Architetto ]
+commands:
+  cannonreload:
+    description: reload commands
+
+permissions:
+  fwezcannon.reload:
+    description: reload commands
+    default: op

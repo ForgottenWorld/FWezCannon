@@ -16,13 +16,8 @@ public class BallisticVector {
 
         FileConfiguration defaultConfig = FWezCannon.getDefaultConfig();
 
-        //todo: va leggermente reworkato
-
-        double shootPower = (defaultConfig.getDouble("gunpowder_power") + 1) * gunpowderAmount;
-        double shootAngle = weigth + 1;
-        //double shootAngle = shootPower + (weigth * defaultConfig.getDouble("weight_effect"));
-        //double shootAngle = (1 + defaultConfig.getDouble("weight_effect")) * ( weigth / 5.0 );
-
+        double shootPower = (defaultConfig.getDouble("gunpowder_power") * gunpowderAmount) + 1;
+        double shootAngle = weigth / defaultConfig.getDouble("weight_effect");
 
         this.ballisticvector = dispenser.getLocation().getDirection();
 

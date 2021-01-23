@@ -1,5 +1,6 @@
 ####################################################################################################
 # +----------------------------------------------------------------------------------------------+ #
+# |                                                                                              | #
 # |                                         FWezCannon                                           | #
 # |                                                                                              | #
 # |                                     Made by: Architetto                                      | #
@@ -14,13 +15,15 @@ enabled_world:
 
 max_gunpowder_amount: 10
 
-player_use_cannon_cooldown: 5
+tnt_fuse_ticks: 120
+
+player_use_cannon_cooldown: 10
 cooldown_message: 'CANNONE IN RICARICA'
 
 selfdestroy_explosion_power: 6
 
-gunpowder_power: 0.5
-weight_effect: 0.15
+gunpowder_power: 0.2
+weight_effect: 20.0
 
 normal_shoot:
   power: 4

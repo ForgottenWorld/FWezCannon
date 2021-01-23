@@ -131,8 +131,8 @@ public class Cannon {
                     return;
                 }
 
-                if (gunpowderAmount > fileConfiguration.getInt("max_gunpowder_amount")) { //Valore settabile da config
-                    selfExplode(); //impostare meccanismo di sicurezza con un Math.min(gunpowderAmount,valoreDiConfig)
+                if (gunpowderAmount > fileConfiguration.getInt("max_gunpowder_amount")) {
+                    selfExplode();
                     return;
                 }
 
@@ -151,18 +151,15 @@ public class Cannon {
         tnt.setVelocity(new BallisticVector(dispenser, gunpowderAmount,
                 blastChamber.getWeight()).generate());
 
-        ((TNTPrimed)tnt).setFuseTicks(120);
+        ((TNTPrimed)tnt).setFuseTicks(FWezCannon.getDefaultConfig().getInt("tnt_fuse_ticks"));
 
         CannonBallManager.getInstance().addBall(tnt.getEntityId(), shootType);
 
         if (shootType.equals(ShootType.NOGRAVITY))
             tnt.setGravity(false);
 
-
         //todo: effetto fiamme che escono dal cannone ?
-        air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
-        blastFurnaceBlock.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, blastFurnaceBlock.getLocation().add(0,1,0),1);
-        blastFurnaceBlock.getWorld().playSound(blastFurnaceBlock.getLocation(), Sound.ENTITY_GENERIC_EXPLODE,1,1);
+        shootSoundGraficEffect();
 
         blastChamber.clearPropellant();
 
@@ -188,12 +185,22 @@ public class Cannon {
     private void selfExplode() {
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
 
-        block1.setType(Material.AIR);
-        block2.setType(Material.AIR);
-        block3.setType(Material.AIR);
-        block4.setType(Material.AIR);
+        block1.breakNaturally();
+        block2.breakNaturally();
+        block3.breakNaturally();
+        block4.breakNaturally();
+        dispenser.breakNaturally();
+
         blastFurnaceBlock.getWorld().createExplosion(blastFurnaceBlock.getLocation(),
                 (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true);
+    }
+
+    private void shootSoundGraficEffect() {
+
+        air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
+        blastFurnaceBlock.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, blastFurnaceBlock.getLocation().add(0,1,0),1);
+        blastFurnaceBlock.getWorld().playSound(blastFurnaceBlock.getLocation(), Sound.ENTITY_GENERIC_EXPLODE,1,1);
+
     }
 
 }

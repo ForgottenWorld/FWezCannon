@@ -1,5 +1,6 @@
 package me.architett.fwezcannon;
 
+import me.architett.fwezcannon.commands.ReloadCommand;
 import me.architett.fwezcannon.listeners.CannonListener;
 import me.architett.fwezcannon.listeners.ExtraListener;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +17,7 @@ public final class FWezCannon extends JavaPlugin {
 
         loadListeners();
 
-        this.getServer().getPluginManager().registerEvents(new CannonListener(),this);
+        loadCommands();
 
     }
 
@@ -37,7 +38,10 @@ public final class FWezCannon extends JavaPlugin {
         if (fileConfiguration.getBoolean("enable_defuser"))
             this.getServer().getPluginManager().registerEvents(new ExtraListener(),this);
 
+    }
 
+    private void loadCommands() {
+        this.getCommand("cannonreload").setExecutor(new ReloadCommand());
     }
 
     public static FileConfiguration getDefaultConfig() {
