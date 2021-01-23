@@ -19,22 +19,22 @@ public class BallisticVector {
         double shootPower = (defaultConfig.getDouble("gunpowder_power") * gunpowderAmount) + 1;
         double shootAngle = weigth / defaultConfig.getDouble("weight_effect");
 
-        this.ballisticvector = dispenser.getLocation().getDirection();
-
         switch(dispenserDirectional.getFacing()) {
             case NORTH:
-                this.ballisticvector = this.ballisticvector.add(new Vector(0, shootAngle, shootPower * - 1));
+                this.ballisticvector = new Vector(0, 0, -1);
                 break;
             case SOUTH:
-                this.ballisticvector = this.ballisticvector.add(new Vector(0, shootAngle, shootPower));
+                this.ballisticvector = new Vector(0, 0, 1);
                 break;
             case EAST:
-                this.ballisticvector = this.ballisticvector.add(new Vector(shootPower, shootAngle, 0));
+                this.ballisticvector = new Vector(1, 0, 0);
                 break;
             case WEST:
-                this.ballisticvector = this.ballisticvector.add(new Vector(shootPower * -1, shootAngle,0));
+                this.ballisticvector = new Vector(-1, 0, 0);
                 break;
         }
+
+        this.ballisticvector = this.ballisticvector.multiply(shootPower).add(new Vector(0,shootAngle,0));
 
     }
 
