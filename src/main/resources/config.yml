@@ -25,38 +25,55 @@ selfdestroy_explosion_power: 6
 gunpowder_power: 0.2
 weight_effect: 20.0
 
-normal_shoot:
+normal_shot:
   power: 4
 
-blind_shoot:
+blind_shot:
   enable: true
   range: 5
   duration: 200
   amplifier: 1
+  explosion_power: 2
 
-poison_shoot:
+poison_shot:
   enable: true
   range: 5
   duration: 300
   amplifier: 1
+  explosion_power: 2
 
-fire_shoot:
+fire_shot:
   enable: true
   range: 5
   duration: 200
+  explosion_power: 2
+  burn_block: false
 
-slow_shoot:
+slow_shot:
   enable: true
   range: 5
   duration: 200
   amplifier: 2
+  explosion_power: 2
 
-nogravity_shoot:
+nogravity_shot:
   enable: true
 
-huge_shoot:
+huge_shot:
   enable: true
   power: 5
+
+multi_shot:
+  enable: true
+  repeat_times: 3
+  repeat_delay_ticks: 15
+
+bounce_shot:
+  enable: true
+  range: 6
+  bounce_power: 3
+  vertical_bounce_power: 1.5
+  explosion_power: 2
 
 enable_defuser: true #need server restart
 defuser_use_damage: 50

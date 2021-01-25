@@ -57,7 +57,7 @@ public class CannonListener implements Listener {
                     return;
                 }
 
-                cannon.setFire();
+                cannon.ignite();
                 if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                     cooldownTask(event.getPlayer().getUniqueId());
             }

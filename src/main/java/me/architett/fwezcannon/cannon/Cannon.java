@@ -6,7 +6,7 @@ import me.architett.fwezcannon.cannon.parts.BlastChamber;
 import me.architett.fwezcannon.cannon.parts.CannonBarrel;
 import me.architett.fwezcannon.cannon.util.BallisticVector;
 import me.architett.fwezcannon.cannon.util.ShootRecipeManager;
-import me.architett.fwezcannon.cannon.ball.ShootType;
+import me.architett.fwezcannon.cannon.ball.ShotType;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,6 +20,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class Cannon {
 
@@ -105,7 +106,7 @@ public class Cannon {
         return false;
     }
 
-    public void setFire() {
+    public void ignite() {
 
         this.blastFurnaceBlock.getWorld().playSound(this.blastFurnaceBlock.getLocation(), Sound.ENTITY_CREEPER_PRIMED,1,1);
 
@@ -136,35 +137,61 @@ public class Cannon {
                     return;
                 }
 
-                shoot(gunpowderAmount,
-                        ShootRecipeManager.getInstance().getShootType(cannonBarrel.getRecipe()));
+
+                preshot();
 
             }
         }.runTaskLater(FWezCannon.getPlugin(FWezCannon.class),40L);
 
     }
 
-    private void shoot(int gunpowderAmount, ShootType shootType) {
+    private void preshot() {
 
-        Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
+        ShotType shotType = ShootRecipeManager.getInstance().getShootType(cannonBarrel.getRecipe());
 
-        tnt.setVelocity(new BallisticVector(dispenser, gunpowderAmount,
-                blastChamber.getWeight()).generate());
+        if (shotType.equals(ShotType.MULTI_SHOT))
+            shot(shotType, FWezCannon.getDefaultConfig().getInt("multi_shot.repeat_times"));
+        else
+            shot(shotType, 1);
 
-        ((TNTPrimed)tnt).setFuseTicks(FWezCannon.getDefaultConfig().getInt("tnt_fuse_ticks"));
-
-        CannonBallManager.getInstance().addBall(tnt.getEntityId(), shootType);
-
-        if (shootType.equals(ShootType.NOGRAVITY))
-            tnt.setGravity(false);
-
-        //todo: effetto fiamme che escono dal cannone ?
-        shootSoundGraficEffect();
 
         blastChamber.clearPropellant();
 
         cannonBarrel.reduceInventory();
 
+    }
+
+    private void shot(ShotType shotType, int shotRepeat) {
+
+        new BukkitRunnable() {
+
+            private final Vector ballisticVector = new BallisticVector(dispenser, blastChamber.getGunpowderAmount(),
+                    blastChamber.getWeight()).generate();
+
+            private int i = shotRepeat;
+
+            @Override
+            public void run() {
+
+                Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
+
+                tnt.setVelocity(ballisticVector);
+
+                ((TNTPrimed)tnt).setFuseTicks(FWezCannon.getDefaultConfig().getInt("tnt_fuse_ticks"));
+
+                CannonBallManager.getInstance().addBall(tnt.getEntityId(), shotType);
+
+                if (shotType.equals(ShotType.NOGRAVITY))
+                    tnt.setGravity(false);
+
+                shotSoundGraficEffect();
+
+                i--;
+                if (i <= 0)
+                    this.cancel();
+            }
+        }.runTaskTimer(FWezCannon.getPlugin(FWezCannon.class),0,
+                FWezCannon.getDefaultConfig().getLong("multi_shot.repeat_delay_ticks"));
     }
 
     private void fail() {
@@ -173,9 +200,10 @@ public class Cannon {
 
             @Override
             public void run(){
-                blastFurnaceBlock.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, blastFurnaceBlock.getLocation(),0,0,0.1,0);
+                blastFurnaceBlock.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
+                        blastFurnaceBlock.getLocation(),0,0,0.1,0);
                 times++;
-                if (times == 3) {
+                if (times == 4) {
                     this.cancel();
                 }
             }
@@ -195,7 +223,7 @@ public class Cannon {
                 (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true);
     }
 
-    private void shootSoundGraficEffect() {
+    private void shotSoundGraficEffect() {
 
         air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
         blastFurnaceBlock.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, blastFurnaceBlock.getLocation().add(0,1,0),1);
