@@ -76,5 +76,6 @@ bounce_shot:
   explosion_power: 2
 
 enable_defuser: true #need server restart
+drop_tnt_if_defused: true
 defuser_use_damage: 50
 

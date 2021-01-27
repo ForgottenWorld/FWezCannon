@@ -5,7 +5,7 @@ import me.architett.fwezcannon.cannon.ball.CannonBallManager;
 import me.architett.fwezcannon.cannon.parts.BlastChamber;
 import me.architett.fwezcannon.cannon.parts.CannonBarrel;
 import me.architett.fwezcannon.cannon.util.BallisticVector;
-import me.architett.fwezcannon.cannon.util.ShootRecipeManager;
+import me.architett.fwezcannon.cannon.ball.ShotRecipeManager;
 import me.architett.fwezcannon.cannon.ball.ShotType;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -147,13 +147,12 @@ public class Cannon {
 
     private void preshot() {
 
-        ShotType shotType = ShootRecipeManager.getInstance().getShootType(cannonBarrel.getRecipe());
+        ShotType shotType = ShotRecipeManager.getInstance().getShotType(cannonBarrel.getRecipe());
 
         if (shotType.equals(ShotType.MULTI_SHOT))
             shot(shotType, FWezCannon.getDefaultConfig().getInt("multi_shot.repeat_times"));
         else
             shot(shotType, 1);
-
 
         blastChamber.clearPropellant();
 

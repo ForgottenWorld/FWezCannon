@@ -36,6 +36,11 @@ public class ExtraListener implements Listener {
                     damageDefuseKit(event.getPlayer());
 
                 event.getRightClicked().remove();
+
+                if (FWezCannon.getDefaultConfig().getBoolean("drop_tnt_if_defused"))
+                    event.getRightClicked().getLocation().getWorld().dropItem(event.getRightClicked().getLocation(),
+                        new ItemStack(Material.TNT));
+
             }
         }
 

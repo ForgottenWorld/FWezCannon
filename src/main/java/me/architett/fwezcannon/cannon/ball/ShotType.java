@@ -11,5 +11,6 @@ public enum ShotType {
     HUGE_SHOT,
     MULTI_SHOT,   //Spara 3 TNT consecutive
     BOUNCE_SHOT  //Applica knockback ai player
+    //SPECIAL
 
 }

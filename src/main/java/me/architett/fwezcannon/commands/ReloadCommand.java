@@ -1,6 +1,6 @@
 package me.architett.fwezcannon.commands;
 
-import me.architett.fwezcannon.cannon.util.ShootRecipeManager;
+import me.architett.fwezcannon.cannon.ball.ShotRecipeManager;
 import me.architett.fwezcannon.config.ConfigurationManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,8 +21,8 @@ public class ReloadCommand implements CommandExecutor {
         }
 
         ConfigurationManager.getInstance().reloadDefaultConfig();
-        ShootRecipeManager.getInstance().clearContainer();
-        ShootRecipeManager.getInstance().buildContainer();
+        ShotRecipeManager.getInstance().clearContainer();
+        ShotRecipeManager.getInstance().buildContainer();
         commandSender.sendMessage(ChatColor.GREEN + "Reloaded config successfully");
 
         return false;
