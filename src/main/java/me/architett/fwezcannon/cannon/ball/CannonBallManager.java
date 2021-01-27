@@ -1,6 +1,7 @@
 package me.architett.fwezcannon.cannon.ball;
 
 import me.architett.fwezcannon.FWezCannon;
+import me.architett.fwezcannon.cannon.effect.CannonParticleEffects;
 import me.architett.fwezcannon.cannon.util.BounceVector;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -121,6 +122,7 @@ public class CannonBallManager {
 
         }
 
+        CannonParticleEffects.getInstance().tntExplosionEffect(entityTNT.getLocation());
 
     }
 

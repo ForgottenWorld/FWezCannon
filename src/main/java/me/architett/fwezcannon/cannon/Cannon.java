@@ -2,13 +2,13 @@ package me.architett.fwezcannon.cannon;
 
 import me.architett.fwezcannon.FWezCannon;
 import me.architett.fwezcannon.cannon.ball.CannonBallManager;
+import me.architett.fwezcannon.cannon.effect.CannonParticleEffects;
 import me.architett.fwezcannon.cannon.parts.BlastChamber;
 import me.architett.fwezcannon.cannon.parts.CannonBarrel;
 import me.architett.fwezcannon.cannon.util.BallisticVector;
 import me.architett.fwezcannon.cannon.ball.ShotRecipeManager;
 import me.architett.fwezcannon.cannon.ball.ShotType;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.BlastFurnace;
 import org.bukkit.block.Block;
@@ -128,15 +128,14 @@ public class Cannon {
                 int gunpowderAmount = blastChamber.getGunpowderAmount();
 
                 if (gunpowderAmount == 0 || cannonBarrel.getTNTamount() == 0) {
-                    fail();
+                    CannonParticleEffects.getInstance().shootFail(blastFurnace.getLocation().add(0.5,1,0.5));
                     return;
                 }
 
                 if (gunpowderAmount > fileConfiguration.getInt("max_gunpowder_amount")) {
-                    selfExplode();
+                    cannonSelfDestruction();
                     return;
                 }
-
 
                 preshot();
 
@@ -173,8 +172,8 @@ public class Cannon {
             public void run() {
 
                 Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
-
                 tnt.setVelocity(ballisticVector);
+                CannonParticleEffects.getInstance().shootTrace(tnt,air.getLocation());
 
                 ((TNTPrimed)tnt).setFuseTicks(FWezCannon.getDefaultConfig().getInt("tnt_fuse_ticks"));
 
@@ -183,7 +182,6 @@ public class Cannon {
                 if (shotType.equals(ShotType.NOGRAVITY))
                     tnt.setGravity(false);
 
-                shotSoundGraficEffect();
 
                 i--;
                 if (i <= 0)
@@ -193,23 +191,8 @@ public class Cannon {
                 FWezCannon.getDefaultConfig().getLong("multi_shot.repeat_delay_ticks"));
     }
 
-    private void fail() {
-        new BukkitRunnable() {
-            int times = 0;
 
-            @Override
-            public void run(){
-                blastFurnaceBlock.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
-                        blastFurnaceBlock.getLocation(),0,0,0.1,0);
-                times++;
-                if (times == 4) {
-                    this.cancel();
-                }
-            }
-        }.runTaskTimer(FWezCannon.getPlugin(FWezCannon.class),0,10);
-    }
-
-    private void selfExplode() {
+    private void cannonSelfDestruction() {
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
 
         block1.breakNaturally();
@@ -218,16 +201,10 @@ public class Cannon {
         block4.breakNaturally();
         dispenser.breakNaturally();
 
+        CannonParticleEffects.getInstance().cannonExplosionEffect(blastFurnaceBlock.getLocation());
+
         blastFurnaceBlock.getWorld().createExplosion(blastFurnaceBlock.getLocation(),
                 (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true);
-    }
-
-    private void shotSoundGraficEffect() {
-
-        air.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,air.getLocation(),0,0,0.1,0);
-        blastFurnaceBlock.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, blastFurnaceBlock.getLocation().add(0,1,0),1);
-        blastFurnaceBlock.getWorld().playSound(blastFurnaceBlock.getLocation(), Sound.ENTITY_GENERIC_EXPLODE,1,1);
-
     }
 
 }
