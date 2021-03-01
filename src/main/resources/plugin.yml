@@ -4,10 +4,15 @@ main: me.architett.fwezcannon.FWezCannon
 api-version: 1.16
 authors: [ Architetto ]
 commands:
-  cannonreload:
+  fwezcannon:
     description: reload commands
+    aliases:
+      - ezc
 
 permissions:
   fwezcannon.reload:
     description: reload commands
+    default: op
+  fwezcannon.ezcannon:
+    description: add/remove authorization
     default: op

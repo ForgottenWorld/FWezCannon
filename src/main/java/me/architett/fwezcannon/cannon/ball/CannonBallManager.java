@@ -43,21 +43,25 @@ public class CannonBallManager {
 
     public void executeExplosion(Entity entityTNT) {
 
-
         ShotType shotType = cannonTNTcontainer.get(entityTNT.getEntityId());
+
         removeBall(entityTNT.getEntityId());
 
-
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
-        double shootRange;
 
+        double shootRange;
+        float explosionPower;
 
         switch (shotType) {
             case FIRE:
                 shootRange = fileConfiguration.getDouble("fire_shot.range");
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("fire_shot.explosion_power"),
-                        fileConfiguration.getBoolean("fire_shot.burn_block"),true);
+                explosionPower = (float) fileConfiguration.getDouble("fire_shot.explosion_power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,
+                        fileConfiguration.getBoolean("fire_shot.burn_block"),true,
+                        entityTNT);
+
                 entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
                         .forEach(e -> {
                     Player player = ((Player) e).getPlayer();
@@ -66,8 +70,12 @@ public class CannonBallManager {
                 break;
             case BLIND:
                 shootRange = fileConfiguration.getDouble("blind_shot.range");
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("blind_shot.explosion_power"),false,true);
+                explosionPower = (float) fileConfiguration.getDouble("blind_shot.explosion_power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
+
                 entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
                         .forEach(e -> {
                             Player player = ((Player) e).getPlayer();
@@ -78,8 +86,12 @@ public class CannonBallManager {
                 break;
             case SLOW:
                 shootRange = fileConfiguration.getDouble("slow_shot.range");
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("slow_shot.explosion_power"),false,true);
+                explosionPower = (float) fileConfiguration.getDouble("slow_shot.explosion_power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
+
                 entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
                         .forEach(e -> {
                             Player player = ((Player) e).getPlayer();
@@ -90,8 +102,12 @@ public class CannonBallManager {
                 break;
             case POISON:
                 shootRange = fileConfiguration.getDouble("poison_shot.range");
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("poison_shot.explosion_power"),false,true);
+                explosionPower = (float) fileConfiguration.getDouble("poison_shot.explosion_power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
+
                 entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
                         .forEach(e -> {
                             Player player = ((Player) e).getPlayer();
@@ -101,13 +117,20 @@ public class CannonBallManager {
                         });
                 break;
             case HUGE_SHOT:
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("huge_shot.power"),false,true);
+                explosionPower = (float) fileConfiguration.getDouble("huge_shot.power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
                 break;
             case BOUNCE_SHOT:
                 shootRange = fileConfiguration.getDouble("bounce_shot.range");
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("bounce_shot.explosion_power"),false,true);
+                explosionPower = (float) fileConfiguration.getDouble("bounce_shot.explosion_power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
+
                 entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
                         .forEach(e -> {
                             Player player = ((Player) e).getPlayer();
@@ -117,8 +140,11 @@ public class CannonBallManager {
                         });
                 break;
             default:
-                entityTNT.getLocation().getWorld().createExplosion(entityTNT.getLocation(),
-                        (float) fileConfiguration.getDouble("normal_shot.power"), false, true);
+                explosionPower = (float) fileConfiguration.getDouble("normal_shot.power");
+
+                entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
+                        explosionPower,false,true,
+                        entityTNT);
 
         }
 

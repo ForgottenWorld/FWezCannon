@@ -16,29 +16,29 @@ public class BallisticVector {
 
         FileConfiguration defaultConfig = FWezCannon.getDefaultConfig();
 
-        double shootPower = (defaultConfig.getDouble("gunpowder_power") * gunpowderAmount) + 1;
-        double shootAngle = weigth / defaultConfig.getDouble("weight_effect");
+        double gunpowderPower = (defaultConfig.getDouble("gunpowder_power") * gunpowderAmount) + 1;
 
         switch(dispenserDirectional.getFacing()) {
             case NORTH:
-                this.ballisticvector = new Vector(0, 0, -1);
+                this.ballisticvector = new Vector(0, 0, -1).rotateAroundX(Math.toRadians(weigth));
                 break;
             case SOUTH:
-                this.ballisticvector = new Vector(0, 0, 1);
+                this.ballisticvector = new Vector(0, 0, 1).rotateAroundX(Math.toRadians(-weigth));
                 break;
             case EAST:
-                this.ballisticvector = new Vector(1, 0, 0);
+                this.ballisticvector = new Vector(1, 0, 0).rotateAroundZ(Math.toRadians(weigth));
                 break;
             case WEST:
-                this.ballisticvector = new Vector(-1, 0, 0);
+                this.ballisticvector = new Vector(-1, 0, 0).rotateAroundZ(Math.toRadians(-weigth));
                 break;
         }
 
-        this.ballisticvector = this.ballisticvector.multiply(shootPower).add(new Vector(0,shootAngle,0));
+        this.ballisticvector = this.ballisticvector.multiply(gunpowderPower);
 
     }
 
     public Vector generate() {
         return this.ballisticvector;
     }
+
 }

@@ -38,6 +38,7 @@ public class CannonParticleEffects {
 
         ExplodeEffect explodeEffect = new ExplodeEffect(effectManager);
         explodeEffect.setLocation(location);
+        explodeEffect.amount = 5;
         explodeEffect.start();
 
     }
@@ -57,13 +58,15 @@ public class CannonParticleEffects {
     }
 
     public void cannonExplosionEffect(Location location) {
-        SphereEffect sphereEffect = new SphereEffect(effectManager);
-        sphereEffect.setLocation(location);
-        sphereEffect.particle = Particle.FLAME;
-        sphereEffect.radiusIncrease = 0.3;
-        sphereEffect.iterations = 10;
-        sphereEffect.particleData = 0.3F;
-        sphereEffect.start();
+
+        SphereEffect sphereEffect2 = new SphereEffect(effectManager);
+        sphereEffect2.setLocation(location);
+        sphereEffect2.particle = Particle.CAMPFIRE_SIGNAL_SMOKE;
+        sphereEffect2.particles = 30;
+        sphereEffect2.radiusIncrease = 0.4;
+        sphereEffect2.iterations = 4;
+        sphereEffect2.particleData = 0.01F;
+        sphereEffect2.start();
     }
 
     public void tntExplosionEffect(Location location) {
@@ -72,10 +75,9 @@ public class CannonParticleEffects {
         sphereEffect.particle = Particle.CAMPFIRE_SIGNAL_SMOKE;
         sphereEffect.particles = 20;
         sphereEffect.radiusIncrease = 0.1;
-        sphereEffect.iterations = 6;
+        sphereEffect.iterations = 2;
         sphereEffect.particleData = 0.01F;
         sphereEffect.start();
-
     }
 
 }

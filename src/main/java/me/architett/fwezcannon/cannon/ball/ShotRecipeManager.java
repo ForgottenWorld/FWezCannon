@@ -83,16 +83,6 @@ public class ShotRecipeManager {
                 Material.SLIME_BLOCK,Material.TNT,Material.SLIME_BLOCK,
                 Material.AIR,Material.SLIME_BLOCK,Material.AIR),ShotType.BOUNCE_SHOT);
 
-        /*
-
-        if (fileConfiguration.getBoolean("special_shot.enable"))
-            this.shootTypeContainer.put(Arrays.asList(
-                    Material.FEATHER,Material.AIR,Material.FEATHER,
-                    Material.FEATHER,Material.AIR,Material.FEATHER,
-                    Material.WHITE_WOOL,Material.TNT,Material.WHITE_WOOL),ShotType.SPECIAL);
-
-         */
-
     }
 
     public void clearContainer() {

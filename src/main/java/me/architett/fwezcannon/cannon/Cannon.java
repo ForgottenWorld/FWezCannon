@@ -8,6 +8,7 @@ import me.architett.fwezcannon.cannon.parts.CannonBarrel;
 import me.architett.fwezcannon.cannon.util.BallisticVector;
 import me.architett.fwezcannon.cannon.ball.ShotRecipeManager;
 import me.architett.fwezcannon.cannon.ball.ShotType;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlastFurnace;
@@ -80,11 +81,13 @@ public class Cannon {
 
     public boolean isCanon() {
 
+        Material cannonMaterial = Material.getMaterial(FWezCannon.getDefaultConfig().getString("cannon_block"));
+
         if (blastFurnaceBlock.getType() == Material.BLAST_FURNACE
-                && block1.getType() == Material.NETHERITE_BLOCK
-                && block2.getType() == Material.NETHERITE_BLOCK
-                && block3.getType() == Material.NETHERITE_BLOCK
-                && block4.getType() == Material.NETHERITE_BLOCK
+                && block1.getType() == cannonMaterial
+                && block2.getType() == cannonMaterial
+                && block3.getType() == cannonMaterial
+                && block4.getType() == cannonMaterial
                 && dispenser.getType() == Material.DISPENSER
                 && air.isPassable()) {
 
@@ -127,7 +130,7 @@ public class Cannon {
 
                 int gunpowderAmount = blastChamber.getGunpowderAmount();
 
-                if (gunpowderAmount == 0 || cannonBarrel.getTNTamount() == 0) {
+                if (!isCanon() || gunpowderAmount == 0 || cannonBarrel.getTNTamount() == 0) {
                     CannonParticleEffects.getInstance().shootFail(blastFurnace.getLocation().add(0.5,1,0.5));
                     return;
                 }
@@ -136,6 +139,7 @@ public class Cannon {
                     cannonSelfDestruction();
                     return;
                 }
+
 
                 preshot();
 
@@ -171,6 +175,12 @@ public class Cannon {
             @Override
             public void run() {
 
+                if (!isCanon()) {
+                    this.cancel();
+                    CannonParticleEffects.getInstance().shootFail(blastFurnaceBlock.getLocation().add(0.5,1,0.5));
+                    return;
+                }
+
                 Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
                 tnt.setVelocity(ballisticVector);
                 CannonParticleEffects.getInstance().shootTrace(tnt,air.getLocation());
@@ -194,17 +204,25 @@ public class Cannon {
 
     private void cannonSelfDestruction() {
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
+        Location loc = blastFurnaceBlock.getLocation().clone();
 
+        blastFurnaceBlock.breakNaturally();
         block1.breakNaturally();
         block2.breakNaturally();
         block3.breakNaturally();
         block4.breakNaturally();
         dispenser.breakNaturally();
 
-        CannonParticleEffects.getInstance().cannonExplosionEffect(blastFurnaceBlock.getLocation());
+        CannonParticleEffects.getInstance().cannonExplosionEffect(loc);
 
-        blastFurnaceBlock.getWorld().createExplosion(blastFurnaceBlock.getLocation(),
-                (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true);
+        Entity tnt = loc.getWorld().spawnEntity(loc,EntityType.PRIMED_TNT);
+
+        loc.getWorld().createExplosion(loc,
+                (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true,
+                tnt);
+
+        tnt.remove();
+
     }
 
 }

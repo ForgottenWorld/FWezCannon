@@ -2,16 +2,18 @@ package me.architett.fwezcannon.listeners;
 
 import me.architett.fwezcannon.FWezCannon;
 import me.architett.fwezcannon.cannon.Cannon;
+import me.architett.fwezcannon.cannon.CannonManager;
 import me.architett.fwezcannon.cannon.ball.CannonBallManager;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import me.architett.fwezcannon.cannon.effect.CannonParticleEffects;
+import me.architett.fwezcannon.util.MessageUtil;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +26,7 @@ import java.util.UUID;
 
 public class CannonListener implements Listener {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private List<UUID> cooldown = new ArrayList<>();
 
     @EventHandler
@@ -31,18 +34,23 @@ public class CannonListener implements Listener {
 
         Block block = event.getClickedBlock();
 
-        if (block == null ||
-                !FWezCannon.getDefaultConfig().getStringList("enabled_world")
-                        .contains(event.getClickedBlock().getLocation().getWorld().getName()))
+        if (block == null
+                || !FWezCannon.getDefaultConfig().getStringList("enabled_world")
+                .contains(event.getClickedBlock().getLocation().getWorld().getName()))
             return;
 
-        Action action = event.getAction();
+
         ItemStack itemStack = event.getItem();
 
         if (block.getType() == Material.BLAST_FURNACE
-                && action.equals(Action.RIGHT_CLICK_BLOCK)
+                && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
                 && itemStack != null
                 && itemStack.getType() == Material.FLINT_AND_STEEL ) {
+
+            if (FWezCannon.getDefaultConfig().getBoolean("authorized_cannons_only")
+                    && !CannonManager.getInstance().isAutorizedCannon(block.getLocation())) {
+                return;
+            }
 
             Cannon cannon = new Cannon(block);
 
@@ -51,14 +59,15 @@ public class CannonListener implements Listener {
                 event.setCancelled(true);
 
                 if (cooldown.contains(event.getPlayer().getUniqueId())) {
-                    block.getLocation().getWorld().playSound(block.getLocation(), Sound.BLOCK_ANVIL_USE,1,1);
-                    event.getPlayer().sendActionBar(ChatColor.YELLOW + "" + ChatColor.BOLD
-                            + FWezCannon.getDefaultConfig().getString("cooldown_message"));
+                    event.getPlayer().sendActionBar(MessageUtil.format(FWezCannon
+                            .getDefaultConfig().getString("string.cooldown_message")));
                     return;
                 }
 
                 cannon.ignite();
-                if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+
+                if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)
+                        || FWezCannon.getDefaultConfig().getLong("player_use_cannon_cooldown") == 0)
                     cooldownTask(event.getPlayer().getUniqueId());
             }
         }
@@ -75,6 +84,27 @@ public class CannonListener implements Listener {
             CannonBallManager.getInstance().executeExplosion(event.getEntity());
         }
 
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if (event.getBlock().getType().equals(Material.BLAST_FURNACE)
+                && FWezCannon.getDefaultConfig().getBoolean("authorized_cannons_only")
+                && CannonManager.getInstance().isAutorizedCannon(event.getBlock().getLocation())) {
+            CannonManager.getInstance().removeAutorizedCannon(event.getBlock().getLocation());
+            CannonParticleEffects.getInstance().cannonExplosionEffect(event.getBlock().getLocation());
+            event.getPlayer().sendMessage(MessageUtil.format(FWezCannon.getDefaultConfig().getString("string.cannon_destroyed")));
+        }
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        if (event.getBlock().getType().equals(Material.BLAST_FURNACE)
+                && FWezCannon.getDefaultConfig().getBoolean("authorized_cannons_only")
+                && CannonManager.getInstance().isAutorizedCannon(event.getBlock().getLocation())) {
+            CannonManager.getInstance().removeAutorizedCannon(event.getBlock().getLocation());
+            CannonParticleEffects.getInstance().cannonExplosionEffect(event.getBlock().getLocation());
+        }
     }
 
     public void cooldownTask(UUID uuid) {

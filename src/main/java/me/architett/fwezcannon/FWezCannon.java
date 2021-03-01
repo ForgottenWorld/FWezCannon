@@ -1,10 +1,12 @@
 package me.architett.fwezcannon;
 
-import me.architett.fwezcannon.commands.ReloadCommand;
+import me.architett.fwezcannon.commands.CommandManager;
 import me.architett.fwezcannon.listeners.CannonListener;
 import me.architett.fwezcannon.listeners.ExtraListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class FWezCannon extends JavaPlugin {
 
@@ -41,7 +43,7 @@ public final class FWezCannon extends JavaPlugin {
     }
 
     private void loadCommands() {
-        this.getCommand("cannonreload").setExecutor(new ReloadCommand());
+        Objects.requireNonNull(getCommand("fwezcannon")).setExecutor(new CommandManager());
     }
 
     public static FileConfiguration getDefaultConfig() {

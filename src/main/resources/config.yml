@@ -12,18 +12,16 @@
 
 enabled_world:
   - 'world'
+authorized_cannons_only: false
 
 max_gunpowder_amount: 10
-
 tnt_fuse_ticks: 120
-
 player_use_cannon_cooldown: 10
-cooldown_message: 'CANNONE IN RICARICA'
+
+cannon_block: 'NETHERITE_BLOCK'
 
 selfdestroy_explosion_power: 6
-
 gunpowder_power: 0.2
-weight_effect: 20.0
 
 normal_shot:
   power: 4
@@ -78,4 +76,15 @@ bounce_shot:
 enable_defuser: true #need server restart
 drop_tnt_if_defused: true
 defuser_use_damage: 50
+
+#Messages
+string:
+  auth_cannons_clear: '&8[&l&ae&cC&r&8]&r Rimosse tutte le autorizzazioni'
+  auth_cannon_removed: '&8[&l&ae&cC&r&8]&r Autorizzazione rimossa'
+  auth_cannon_added: '&8[&l&ae&cC&r&8]&r Autorizzazione aggiunta'
+  auth_invalid_block: '&8[&l&ae&cC&r&8]&r Bocco non valido'
+  reload_success: '&8[&l&ae&cC&r&8]&r Config ricaricato'
+  cannon_destroyed: '&8[&l&ae&cC&r&8]&r Cannone distrutto'
+  cooldown_message: '&e&lCANNONE IN RICARICA'
+
 

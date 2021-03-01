@@ -6,7 +6,7 @@
 
     <groupId>me.architett</groupId>
     <artifactId>FWezCannon</artifactId>
-    <version>1.0</version>
+    <version>1.0x</version>
     <packaging>jar</packaging>
 
     <name>FWezCannon</name>
