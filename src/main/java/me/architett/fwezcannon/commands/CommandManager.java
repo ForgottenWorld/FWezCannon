@@ -22,6 +22,7 @@ public class CommandManager implements TabExecutor{
         subcommands.add(new AuthCommand());
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -77,6 +78,7 @@ public class CommandManager implements TabExecutor{
     }
 
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         String argChar = "";

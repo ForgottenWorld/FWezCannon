@@ -5,7 +5,6 @@ import me.architett.fwezcannon.cannon.effect.CannonParticleEffects;
 import me.architett.fwezcannon.cannon.util.BounceVector;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -15,6 +14,7 @@ public class CannonBallManager {
 
     private static CannonBallManager cannonBallManager;
 
+    @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Integer, ShotType> cannonTNTcontainer;
 
     private CannonBallManager() {
@@ -62,11 +62,9 @@ public class CannonBallManager {
                         fileConfiguration.getBoolean("fire_shot.burn_block"),true,
                         entityTNT);
 
-                entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
-                        .forEach(e -> {
-                    Player player = ((Player) e).getPlayer();
-                    player.setFireTicks(fileConfiguration.getInt("fire_shot.duration"));
-                });
+                entityTNT.getLocation().getNearbyPlayers(shootRange).forEach(p ->
+                    p.setFireTicks(fileConfiguration.getInt("fire_shot.duration")));
+
                 break;
             case BLIND:
                 shootRange = fileConfiguration.getDouble("blind_shot.range");
@@ -76,13 +74,11 @@ public class CannonBallManager {
                         explosionPower,false,true,
                         entityTNT);
 
-                entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
-                        .forEach(e -> {
-                            Player player = ((Player) e).getPlayer();
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
-                                    fileConfiguration.getInt("blind_shot.duration"),
-                                    fileConfiguration.getInt("blind_shot.amplifier")));
-                        });
+                entityTNT.getLocation().getNearbyPlayers(shootRange).forEach(p ->
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
+                                fileConfiguration.getInt("blind_shot.duration"),
+                                fileConfiguration.getInt("blind_shot.amplifier"))));
+
                 break;
             case SLOW:
                 shootRange = fileConfiguration.getDouble("slow_shot.range");
@@ -92,13 +88,11 @@ public class CannonBallManager {
                         explosionPower,false,true,
                         entityTNT);
 
-                entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
-                        .forEach(e -> {
-                            Player player = ((Player) e).getPlayer();
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-                                    fileConfiguration.getInt("slow_shot.duration"),
-                                    fileConfiguration.getInt("slow_shot.amplifier")));
-                        });
+                entityTNT.getLocation().getNearbyPlayers(shootRange).forEach(p ->
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+                                fileConfiguration.getInt("slow_shot.duration"),
+                                fileConfiguration.getInt("slow_shot.amplifier"))));
+
                 break;
             case POISON:
                 shootRange = fileConfiguration.getDouble("poison_shot.range");
@@ -108,13 +102,11 @@ public class CannonBallManager {
                         explosionPower,false,true,
                         entityTNT);
 
-                entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
-                        .forEach(e -> {
-                            Player player = ((Player) e).getPlayer();
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON,
-                                    fileConfiguration.getInt("poison_shot.duration"),
-                                    fileConfiguration.getInt("poison_shot.amplifier")));
-                        });
+                entityTNT.getLocation().getNearbyPlayers(shootRange).forEach(p ->
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.POISON,
+                                fileConfiguration.getInt("poison_shot.duration"),
+                                fileConfiguration.getInt("poison_shot.amplifier"))));
+
                 break;
             case HUGE_SHOT:
                 explosionPower = (float) fileConfiguration.getDouble("huge_shot.power");
@@ -131,13 +123,10 @@ public class CannonBallManager {
                         explosionPower,false,true,
                         entityTNT);
 
-                entityTNT.getNearbyEntities(shootRange,shootRange,shootRange).stream().filter(e -> e instanceof Player)
-                        .forEach(e -> {
-                            Player player = ((Player) e).getPlayer();
-                            BounceVector bounceVector = new BounceVector(player.getLocation().toVector()
-                                    ,entityTNT.getLocation().toVector());
-                            player.setVelocity(bounceVector.getBounce());
-                        });
+                entityTNT.getLocation().getNearbyPlayers(shootRange).forEach(p ->
+                        p.setVelocity(new BounceVector(p.getLocation().toVector()
+                                ,entityTNT.getLocation().toVector()).getBounce()));
+
                 break;
             default:
                 explosionPower = (float) fileConfiguration.getDouble("normal_shot.power");

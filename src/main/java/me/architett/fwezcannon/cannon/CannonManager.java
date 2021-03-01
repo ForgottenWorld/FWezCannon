@@ -10,6 +10,7 @@ public class CannonManager {
 
     private static CannonManager cannonManager;
 
+    @SuppressWarnings("FieldMayBeFinal")
     private Set<Vector> autorizedCannon;
 
     private CannonManager() {

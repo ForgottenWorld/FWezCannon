@@ -26,6 +26,7 @@ import java.util.UUID;
 
 public class CannonListener implements Listener {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private Set<UUID> cooldown = new HashSet<>();
 
     @EventHandler

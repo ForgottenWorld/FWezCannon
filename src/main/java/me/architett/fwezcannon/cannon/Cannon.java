@@ -23,6 +23,8 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Objects;
+
 public class Cannon {
 
     private final Block blastFurnaceBlock;
@@ -81,7 +83,8 @@ public class Cannon {
 
     public boolean isCanon() {
 
-        Material cannonMaterial = Material.getMaterial(FWezCannon.getDefaultConfig().getString("cannon_block"));
+        Material cannonMaterial = Material.getMaterial(Objects.requireNonNull(FWezCannon
+                .getDefaultConfig().getString("cannon_block")));
 
         if (blastFurnaceBlock.getType() == Material.BLAST_FURNACE
                 && block1.getType() == cannonMaterial

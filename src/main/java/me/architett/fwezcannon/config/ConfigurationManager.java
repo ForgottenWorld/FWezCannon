@@ -5,7 +5,7 @@ import me.architett.fwezcannon.FWezCannon;
 public class ConfigurationManager {
 
     private static ConfigurationManager configInstance;
-    private FWezCannon plugin;
+    private final FWezCannon plugin;
 
     private ConfigurationManager(FWezCannon plugin) {
         if (configInstance != null){

@@ -12,6 +12,7 @@ public class ShotRecipeManager {
 
     private static ShotRecipeManager shotRecipeManager;
 
+    @SuppressWarnings("FieldMayBeFinal")
     private HashMap<List<Material>, ShotType> shotTypeContainer;
 
     private ShotRecipeManager() {
