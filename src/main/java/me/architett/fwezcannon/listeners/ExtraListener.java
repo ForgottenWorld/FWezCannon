@@ -25,7 +25,7 @@ public class ExtraListener implements Listener {
         if (CannonBallManager.getInstance().isBall(event.getRightClicked().getEntityId())) {
             ItemStack itemStack = event.getPlayer().getInventory().getItemInMainHand();
 
-            if (itemStack != null &&  itemStack.getType().equals(Material.SHEARS)) {
+            if (itemStack.getType().equals(Material.SHEARS)) {
 
                 CannonBallManager.getInstance().removeBall(event.getRightClicked().getEntityId());
 

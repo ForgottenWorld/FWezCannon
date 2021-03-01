@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AuthCommand extends SubCommand {
@@ -64,6 +65,9 @@ public class AuthCommand extends SubCommand {
 
     @Override
     public List<String> getSubcommandArguments(Player player, String[] args) {
+        if (args.length == 2) {
+            return Collections.singletonList("clear");
+        }
         return null;
     }
 }

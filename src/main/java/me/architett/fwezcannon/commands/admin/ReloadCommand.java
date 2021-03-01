@@ -44,6 +44,7 @@ public class ReloadCommand extends SubCommand {
         ShotRecipeManager.getInstance().buildContainer();
         CannonManager.getInstance().clearAutorizedCannon();
         sender.sendMessage(MessageUtil.format(FWezCannon.getDefaultConfig().getString("string.reload_success")));
+
     }
 
     @Override

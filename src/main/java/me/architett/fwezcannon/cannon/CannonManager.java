@@ -3,21 +3,21 @@ package me.architett.fwezcannon.cannon;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CannonManager {
 
     private static CannonManager cannonManager;
 
-    private List<Vector> autorizedCannon;
+    private Set<Vector> autorizedCannon;
 
     private CannonManager() {
         if(cannonManager != null) {
             throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
         }
 
-        this.autorizedCannon = new ArrayList<>();
+        this.autorizedCannon = new HashSet<>();
 
     }
 

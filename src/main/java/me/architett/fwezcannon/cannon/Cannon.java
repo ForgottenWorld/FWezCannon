@@ -204,7 +204,7 @@ public class Cannon {
 
     private void cannonSelfDestruction() {
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
-        Location loc = blastFurnaceBlock.getLocation().clone();
+        Location loc = blastFurnaceBlock.getLocation();
 
         blastFurnaceBlock.breakNaturally();
         block1.breakNaturally();

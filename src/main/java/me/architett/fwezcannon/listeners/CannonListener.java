@@ -19,15 +19,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 
 public class CannonListener implements Listener {
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private List<UUID> cooldown = new ArrayList<>();
+    private Set<UUID> cooldown = new HashSet<>();
 
     @EventHandler
     public void onPlayerRightClick(PlayerInteractEvent event) {
