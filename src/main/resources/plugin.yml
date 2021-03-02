@@ -16,3 +16,6 @@ permissions:
   fwezcannon.ezcannon:
     description: add/remove authorization
     default: op
+  fwezcannon.cdbypass:
+    description: bypass cannon use cooldown
+    default: op

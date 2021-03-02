@@ -66,7 +66,7 @@ public class CannonListener implements Listener {
 
                 cannon.ignite();
 
-                if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)
+                if (!event.getPlayer().hasPermission("fwezcannon.cdbypass")
                         || FWezCannon.getDefaultConfig().getLong("player_use_cannon_cooldown") == 0)
                     cooldownTask(event.getPlayer().getUniqueId());
             }

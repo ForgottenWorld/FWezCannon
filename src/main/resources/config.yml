@@ -32,6 +32,7 @@ blind_shot:
   duration: 200
   amplifier: 1
   explosion_power: 2
+  recipe: 'AIR,INK_SAC,AIR,INK_SAC,TNT,INK_SAC,AIR,INK_SAC,AIR'
 
 poison_shot:
   enable: true
@@ -39,6 +40,7 @@ poison_shot:
   duration: 300
   amplifier: 1
   explosion_power: 2
+  recipe: 'AIR,POISONOUS_POTATO,AIR,POISONOUS_POTATO,TNT,POISONOUS_POTATO,AIR,POISONOUS_POTATO,AIR'
 
 fire_shot:
   enable: true
@@ -46,6 +48,7 @@ fire_shot:
   duration: 200
   explosion_power: 2
   burn_block: false
+  recipe: 'AIR,MAGMA_CREAM,AIR,MAGMA_CREAM,TNT,MAGMA_CREAM,AIR,MAGMA_CREAM,AIR'
 
 slow_shot:
   enable: true
@@ -53,18 +56,22 @@ slow_shot:
   duration: 200
   amplifier: 2
   explosion_power: 2
+  recipe: 'AIR,HONEY_BLOCK,AIR,HONEY_BLOCK,TNT,HONEY_BLOCK,AIR,HONEY_BLOCK,AIR'
 
 nogravity_shot:
   enable: true
+  recipe: 'AIR,PHANTOM_MEMBRANE,AIR,PHANTOM_MEMBRANE,TNT,PHANTOM_MEMBRANE,AIR,PHANTOM_MEMBRANE,AIR'
 
 huge_shot:
   enable: true
-  power: 5
+  power: 6
+  recipe: 'FIRE_CHARGE,TNT,FIRE_CHARGE,TNT,TNT,TNT,FIRE_CHARGE,TNT,FIRE_CHARGE'
 
 multi_shot:
   enable: true
   repeat_times: 3
   repeat_delay_ticks: 15
+  recipe: 'TNT,TNT,TNT,GUNPOWDER,GUNPOWDER,GUNPOWDER,FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE'
 
 bounce_shot:
   enable: true
@@ -72,6 +79,7 @@ bounce_shot:
   bounce_power: 3
   vertical_bounce_power: 1.5
   explosion_power: 2
+  recipe: 'AIR,SLIME_BLOCK,AIR,SLIME_BLOCK,TNT,SLIME_BLOCK,AIR,SLIME_BLOCK,AIR'
 
 enable_defuser: true #need server restart
 drop_tnt_if_defused: true
@@ -79,10 +87,10 @@ defuser_use_damage: 50
 
 #Messages
 string:
-  auth_cannons_clear: '&8[&l&ae&cC&r&8]&r Rimosse tutte le autorizzazioni'
+  auth_cannons_clear: '&8[&l&ae&cC&r&8]&r Rimossi tutti i cannoni autorizzati'
   auth_cannon_removed: '&8[&l&ae&cC&r&8]&r Autorizzazione rimossa'
   auth_cannon_added: '&8[&l&ae&cC&r&8]&r Autorizzazione aggiunta'
-  auth_invalid_block: '&8[&l&ae&cC&r&8]&r Bocco non valido'
+  auth_invalid_block: '&8[&l&ae&cC&r&8]&r Blocco non valido'
   reload_success: '&8[&l&ae&cC&r&8]&r Config ricaricato'
   cannon_destroyed: '&8[&l&ae&cC&r&8]&r Cannone distrutto'
   cooldown_message: '&e&lCANNONE IN RICARICA'

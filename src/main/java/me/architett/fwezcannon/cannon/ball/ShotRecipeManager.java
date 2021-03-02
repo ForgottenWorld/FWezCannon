@@ -4,7 +4,7 @@ import me.architett.fwezcannon.FWezCannon;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,53 +36,101 @@ public class ShotRecipeManager {
 
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
 
-        if (fileConfiguration.getBoolean("slow_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.HONEYCOMB,Material.HONEYCOMB,Material.HONEYCOMB,
-                Material.HONEYCOMB,Material.TNT,Material.HONEYCOMB,
-                Material.HONEYCOMB,Material.HONEYCOMB,Material.HONEYCOMB), ShotType.SLOW);
+        if (fileConfiguration.getBoolean("blind_shot.enable")) {
+            String string = fileConfiguration.getString("blind_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+             for (String material : string.split(",")) {
+                 recipe.add(Material.getMaterial(material));
+             }
+             if (recipe.size() == 9)
+                 this.shotTypeContainer.put(recipe,ShotType.BLIND);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("poison_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.POISONOUS_POTATO,Material.POISONOUS_POTATO,Material.POISONOUS_POTATO,
-                Material.POISONOUS_POTATO,Material.TNT,Material.POISONOUS_POTATO,
-                Material.POISONOUS_POTATO,Material.POISONOUS_POTATO,Material.POISONOUS_POTATO), ShotType.POISON);
+        if (fileConfiguration.getBoolean("slow_shot.enable")) {
+            String string = fileConfiguration.getString("slow_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.SLOW);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("blind_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.INK_SAC,Material.INK_SAC,Material.INK_SAC,
-                Material.INK_SAC,Material.TNT,Material.INK_SAC,
-                Material.INK_SAC,Material.INK_SAC,Material.INK_SAC), ShotType.BLIND);
+        if (fileConfiguration.getBoolean("poison_shot.enable")) {
+            String string = fileConfiguration.getString("poison_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.POISON);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("fire_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.FIRE_CHARGE,Material.TNT,Material.FIRE_CHARGE,
-                Material.TNT,Material.FIRE_CHARGE,Material.TNT,
-                Material.FIRE_CHARGE,Material.TNT,Material.FIRE_CHARGE), ShotType.FIRE);
+        if (fileConfiguration.getBoolean("fire_shot.enable")) {
+            String string = fileConfiguration.getString("fire_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.FIRE);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("nogravity_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.PHANTOM_MEMBRANE,Material.PHANTOM_MEMBRANE,Material.PHANTOM_MEMBRANE,
-                Material.PHANTOM_MEMBRANE,Material.TNT,Material.PHANTOM_MEMBRANE,
-                Material.PHANTOM_MEMBRANE,Material.PHANTOM_MEMBRANE,Material.PHANTOM_MEMBRANE), ShotType.NOGRAVITY);
+        if (fileConfiguration.getBoolean("nogravity_shot.enable")) {
+            String string = fileConfiguration.getString("nogravity_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.NOGRAVITY);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("huge_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.MAGMA_CREAM,Material.TNT,Material.MAGMA_CREAM,
-                Material.TNT,Material.TNT,Material.TNT,
-                Material.MAGMA_CREAM,Material.TNT,Material.MAGMA_CREAM), ShotType.HUGE_SHOT);
+        if (fileConfiguration.getBoolean("huge_shot.enable")) {
+            String string = fileConfiguration.getString("huge_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.HUGE_SHOT);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("multi_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                    Material.GUNPOWDER,Material.GUNPOWDER,Material.GUNPOWDER,
-                    Material.TNT,Material.TNT,Material.TNT,
-                    Material.GUNPOWDER,Material.GUNPOWDER,Material.GUNPOWDER),ShotType.MULTI_SHOT);
+        if (fileConfiguration.getBoolean("multi_shot.enable")) {
+            String string = fileConfiguration.getString("multi_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.MULTI_SHOT);
+            }
+        }
 
-        if (fileConfiguration.getBoolean("bounce_shot.enable"))
-            this.shotTypeContainer.put(Arrays.asList(
-                Material.AIR,Material.SLIME_BLOCK,Material.AIR,
-                Material.SLIME_BLOCK,Material.TNT,Material.SLIME_BLOCK,
-                Material.AIR,Material.SLIME_BLOCK,Material.AIR),ShotType.BOUNCE_SHOT);
+        if (fileConfiguration.getBoolean("bounce_shot.enable")) {
+            String string = fileConfiguration.getString("bounce_shot.recipe");
+            if (string != null && !string.isEmpty()) {
+                List<Material> recipe = new ArrayList<>();
+                for (String material : string.split(",")) {
+                    recipe.add(Material.getMaterial(material));
+                }
+                if (recipe.size() == 9)
+                    this.shotTypeContainer.put(recipe,ShotType.BOUNCE_SHOT);
+            }
+        }
 
     }
 
