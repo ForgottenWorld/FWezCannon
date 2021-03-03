@@ -24,7 +24,7 @@ public class AuthCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/fwezcannon auth";
+        return "/fwezcannon auth [clear]";
     }
 
     @Override

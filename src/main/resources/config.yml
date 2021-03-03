@@ -87,6 +87,7 @@ defuser_use_damage: 50
 
 #Messages
 string:
+  prefix: '&8[&l&ae&cC&r&8]&r '
   auth_cannons_clear: '&8[&l&ae&cC&r&8]&r Rimossi tutti i cannoni autorizzati'
   auth_cannon_removed: '&8[&l&ae&cC&r&8]&r Autorizzazione rimossa'
   auth_cannon_added: '&8[&l&ae&cC&r&8]&r Autorizzazione aggiunta'

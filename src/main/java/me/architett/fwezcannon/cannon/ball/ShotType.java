@@ -8,9 +8,9 @@ public enum ShotType {
     FIRE,
     SLOW,
     NOGRAVITY,
-    HUGE_SHOT,
-    MULTI_SHOT,
-    BOUNCE_SHOT
+    HUGE,
+    MULTI,
+    BOUNCE
 
 
 }

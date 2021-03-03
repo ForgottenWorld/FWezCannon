@@ -4,9 +4,7 @@ import me.architett.fwezcannon.FWezCannon;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ShotRecipeManager {
 
@@ -41,8 +39,10 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
              for (String material : string.split(",")) {
-                 recipe.add(Material.getMaterial(material));
-             }
+                 Material m = Material.getMaterial(material);
+                 if (m == null)
+                     break;
+                 recipe.add(m);             }
              if (recipe.size() == 9)
                  this.shotTypeContainer.put(recipe,ShotType.BLIND);
             }
@@ -53,7 +53,10 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);
                 }
                 if (recipe.size() == 9)
                     this.shotTypeContainer.put(recipe,ShotType.SLOW);
@@ -65,7 +68,10 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);
                 }
                 if (recipe.size() == 9)
                     this.shotTypeContainer.put(recipe,ShotType.POISON);
@@ -77,7 +83,10 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);
                 }
                 if (recipe.size() == 9)
                     this.shotTypeContainer.put(recipe,ShotType.FIRE);
@@ -89,8 +98,10 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
-                }
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);                }
                 if (recipe.size() == 9)
                     this.shotTypeContainer.put(recipe,ShotType.NOGRAVITY);
             }
@@ -101,10 +112,12 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
-                }
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);                }
                 if (recipe.size() == 9)
-                    this.shotTypeContainer.put(recipe,ShotType.HUGE_SHOT);
+                    this.shotTypeContainer.put(recipe,ShotType.HUGE);
             }
         }
 
@@ -113,10 +126,12 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
-                }
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);                }
                 if (recipe.size() == 9)
-                    this.shotTypeContainer.put(recipe,ShotType.MULTI_SHOT);
+                    this.shotTypeContainer.put(recipe,ShotType.MULTI);
             }
         }
 
@@ -125,10 +140,12 @@ public class ShotRecipeManager {
             if (string != null && !string.isEmpty()) {
                 List<Material> recipe = new ArrayList<>();
                 for (String material : string.split(",")) {
-                    recipe.add(Material.getMaterial(material));
-                }
+                    Material m = Material.getMaterial(material);
+                    if (m == null)
+                        break;
+                    recipe.add(m);                }
                 if (recipe.size() == 9)
-                    this.shotTypeContainer.put(recipe,ShotType.BOUNCE_SHOT);
+                    this.shotTypeContainer.put(recipe,ShotType.BOUNCE);
             }
         }
 
@@ -136,6 +153,19 @@ public class ShotRecipeManager {
 
     public void clearContainer() {
         this.shotTypeContainer.clear();
+    }
+
+    public HashMap<List<Material>, ShotType> getShotTypeContainer() {
+        return this.shotTypeContainer;
+    }
+
+    public List<Material> getShotRecipe(ShotType shotType) {
+        for (Map.Entry<List<Material>, ShotType> entry : this.shotTypeContainer.entrySet()) {
+            if (Objects.equals(shotType, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     public ShotType getShotType(List<Material> recipe) {

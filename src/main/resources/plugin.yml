@@ -13,9 +13,12 @@ permissions:
   fwezcannon.reload:
     description: reload commands
     default: op
-  fwezcannon.ezcannon:
+  fwezcannon.auth:
     description: add/remove authorization
     default: op
+  fwezcannon.info:
+    description: access to info command
+    default: true
   fwezcannon.cdbypass:
     description: bypass cannon use cooldown
     default: op

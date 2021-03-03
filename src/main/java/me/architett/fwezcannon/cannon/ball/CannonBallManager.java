@@ -108,14 +108,14 @@ public class CannonBallManager {
                                 fileConfiguration.getInt("poison_shot.amplifier"))));
 
                 break;
-            case HUGE_SHOT:
+            case HUGE:
                 explosionPower = (float) fileConfiguration.getDouble("huge_shot.power");
 
                 entityTNT.getWorld().createExplosion(entityTNT.getLocation(),
                         explosionPower,false,true,
                         entityTNT);
                 break;
-            case BOUNCE_SHOT:
+            case BOUNCE:
                 shootRange = fileConfiguration.getDouble("bounce_shot.range");
                 explosionPower = (float) fileConfiguration.getDouble("bounce_shot.explosion_power");
 

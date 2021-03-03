@@ -2,6 +2,7 @@ package me.architett.fwezcannon.commands;
 
 import me.architett.fwezcannon.commands.admin.AuthCommand;
 import me.architett.fwezcannon.commands.admin.ReloadCommand;
+import me.architett.fwezcannon.commands.user.InfoCommand;
 import me.architett.fwezcannon.util.MessageUtil;
 import me.architett.fwezcannon.util.NameUtil;
 import org.bukkit.ChatColor;
@@ -20,6 +21,7 @@ public class CommandManager implements TabExecutor{
     public CommandManager(){
         subcommands.add(new ReloadCommand());
         subcommands.add(new AuthCommand());
+        subcommands.add(new InfoCommand());
     }
 
     @SuppressWarnings("NullableProblems")
@@ -54,7 +56,7 @@ public class CommandManager implements TabExecutor{
                 }
             }
         }else{
-            p.sendMessage(MessageUtil.commandsInfo());
+            p.sendMessage(MessageUtil.commandsInfoHeader());
 
             for (int i = 0; i < getSubcommands().size(); i++) {
 
@@ -64,7 +66,7 @@ public class CommandManager implements TabExecutor{
                     continue;
 
                 p.sendMessage(MessageUtil.formatListMessage(subCommand.getSyntax()
-                        + " - " + subCommand.getDescription()));
+                        + " - " + ChatColor.AQUA + subCommand.getDescription()));
             }
 
             p.sendMessage(MessageUtil.chatFooter());

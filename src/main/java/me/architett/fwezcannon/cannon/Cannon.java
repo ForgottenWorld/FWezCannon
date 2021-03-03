@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -155,7 +156,7 @@ public class Cannon {
 
         ShotType shotType = ShotRecipeManager.getInstance().getShotType(cannonBarrel.getRecipe());
 
-        if (shotType.equals(ShotType.MULTI_SHOT))
+        if (shotType.equals(ShotType.MULTI))
             shot(shotType, FWezCannon.getDefaultConfig().getInt("multi_shot.repeat_times"));
         else
             shot(shotType, 1);
@@ -184,9 +185,9 @@ public class Cannon {
                     return;
                 }
 
-                Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation(),EntityType.PRIMED_TNT);
+                Entity tnt = dispenser.getWorld().spawnEntity(air.getLocation().toCenterLocation(),EntityType.PRIMED_TNT);
                 tnt.setVelocity(ballisticVector);
-                CannonParticleEffects.getInstance().shootTrace(tnt,air.getLocation());
+                CannonParticleEffects.getInstance().shootTrace(tnt,air.getLocation().toCenterLocation());
 
                 ((TNTPrimed)tnt).setFuseTicks(FWezCannon.getDefaultConfig().getInt("tnt_fuse_ticks"));
 
@@ -207,23 +208,22 @@ public class Cannon {
 
     private void cannonSelfDestruction() {
         FileConfiguration fileConfiguration = FWezCannon.getDefaultConfig();
-        Location loc = blastFurnaceBlock.getLocation();
+        Location loc = blastFurnaceBlock.getLocation().toCenterLocation();
 
-        blastFurnaceBlock.breakNaturally();
-        block1.breakNaturally();
-        block2.breakNaturally();
-        block3.breakNaturally();
-        block4.breakNaturally();
-        dispenser.breakNaturally();
+        blastFurnaceBlock.setType(Material.AIR);
+        block1.setType(Material.AIR);
+        block2.setType(Material.AIR);
+        block3.setType(Material.AIR);
+        block4.setType(Material.AIR);
+        dispenser.setType(Material.AIR);
+        loc.getWorld().playSound(loc,Sound.BLOCK_ANVIL_BREAK,1,1);
 
         CannonParticleEffects.getInstance().cannonExplosionEffect(loc);
 
         Entity tnt = loc.getWorld().spawnEntity(loc,EntityType.PRIMED_TNT);
-
         loc.getWorld().createExplosion(loc,
                 (float) fileConfiguration.getDouble("selfdestroy_explosion_power"),false,true,
                 tnt);
-
         tnt.remove();
 
     }

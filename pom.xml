@@ -6,7 +6,7 @@
 
     <groupId>me.architett</groupId>
     <artifactId>FWezCannon</artifactId>
-    <version>1.0x</version>
+    <version>1.1x</version>
     <packaging>jar</packaging>
 
     <name>FWezCannon</name>
@@ -86,6 +86,11 @@
             <artifactId>EffectLib</artifactId>
             <version>8.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stefvanschie.inventoryframework</groupId>
+            <artifactId>IF</artifactId>
+            <version>0.9.4</version>
         </dependency>
     </dependencies>
 </project>

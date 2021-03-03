@@ -6,10 +6,16 @@ import java.util.Collections;
 
 public class MessageUtil {
 
-    public static String commandsInfo() {
+    public static String commandsInfoHeader() {
         return  ChatColor.YELLOW + "[*]----------------[ " +
                 ChatColor.DARK_AQUA + ChatColor.BOLD + "COMMANDS INFO" +
                 ChatColor.YELLOW + " ]----------------[*]";
+    }
+
+    public static String cannonInfoHeader() {
+        return  ChatColor.YELLOW + "[*]-----------------[ " +
+                ChatColor.DARK_AQUA + ChatColor.BOLD + "CANNON INFO" +
+                ChatColor.YELLOW + " ]-----------------[*]";
     }
 
     public static String chatFooter() {

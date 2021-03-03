@@ -45,7 +45,7 @@ public class CannonListener implements Listener {
         if (block.getType() == Material.BLAST_FURNACE
                 && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
                 && itemStack != null
-                && itemStack.getType() == Material.FLINT_AND_STEEL ) {
+                && itemStack.getType() == Material.FLINT_AND_STEEL) {
 
             if (FWezCannon.getDefaultConfig().getBoolean("authorized_cannons_only")
                     && !CannonManager.getInstance().isAutorizedCannon(block.getLocation())) {
